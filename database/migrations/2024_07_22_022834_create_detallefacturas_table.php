@@ -12,19 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('detallefacturas', function (Blueprint $table) {
-            //Columnas
-            $table->id('id');
+            $table->id();
             $table->bigInteger('cantidad');
-            $table->unsignedBigInteger('id_producto');
-            $table->unsignedBigInteger('id_factura');
             $table->decimal('precio', 10, 2);
-            $table->decimal('subtotal', 10, 2)->computedAs('cantidad * precio'); // Campo calculado opcional
+            $table->decimal('subtotal', 10, 2)->computedAs('cantidad * precio'); // Campo calculado
             $table->timestamps();
-            
             //Relaciones
-            $table->foreign('id_producto')->references('id')->on('productos');
-            $table->foreign('id_factura')->references('id')->on('facturas');
-
+            $table->foreignId('producto_id')->constrained()->onDelete('cascade');
+            $table->foreignid('factura_id')->constrained()->onDelete('cascade');
         });
     }
 
